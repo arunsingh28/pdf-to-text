@@ -1,4 +1,7 @@
 const fs = require('fs');
+require('colors');
+const Diff = require('diff');
+
 // const pdf = require('pdf-parse');
 
 // let dataBuffer = fs.readFileSync('t.pdf');
@@ -27,16 +30,40 @@ const fs = require('fs');
 // });
 
 
+// const checkFile = () => {
+//     fs.readFile('test2.txt', (err, data) => {
+//         fs.readFile('test1.txt', (err, data1) => {
+//             if (data.toString() == data1.toString()) {
+//                 console.log('true')
+//             } else {
+//                 console.log('false')
+//             }
+//         })
+//     })
+// }
+
+// checkFile()
+
+
+
+
 const checkFile = () => {
     fs.readFile('test2.txt', (err, data) => {
         fs.readFile('test1.txt', (err, data1) => {
-            if (data.toString() == data1.toString()) {
-                console.log('true')
-            } else {
-                console.log('false')
-            }
+            const diff = Diff.diffWordsWithSpace(data.toString(), data1.toString());
+            diff.forEach((part) => {
+                console.log(part.count, part.value[0].green);
+                // green for additions, red for deletions
+                // grey for common parts
+                const color = part.added ? 'green' :
+                    part.removed ? 'red' : 'grey';
+                process.stderr.write(part.value[color]);
+            });
         })
     })
 }
 
 checkFile()
+
+
+
