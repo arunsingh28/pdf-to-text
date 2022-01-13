@@ -52,11 +52,11 @@ const checkFile = () => {
         fs.readFile('test1.txt', (err, data1) => {
             const diff = Diff.diffWordsWithSpace(data.toString(), data1.toString());
             diff.forEach((part) => {
-                console.log(part.count, part.value[0].green);
+                console.log('Info:',part)
+                // console.log(++part.count);
                 // green for additions, red for deletions
                 // grey for common parts
-                const color = part.added ? 'green' :
-                    part.removed ? 'red' : 'grey';
+                const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
                 process.stderr.write(part.value[color]);
             });
         })
